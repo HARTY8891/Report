@@ -8,7 +8,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        @media print {
+            body { -webkit-print-color-adjust: exact; }
+            img { max-width: 100% !important; height: auto !important; page-break-inside: avoid; }
+            .break-before { page-break-before: always; }
+            .break-after { page-break-after: always; }
+            .break-avoid { page-break-inside: avoid; }
+            div { page-break-inside: avoid; }
+        }
+        .dropzone {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s;
+        }
+        .dropzone.active {
+            border-color: #3b82f6;
+            background-color: #f0f7ff;
+        }
+        .report-preview {
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        #previewModal {
+            transition: opacity 0.3s;
+        }
+    </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <div class="container mx-auto px-4 py-8">
@@ -182,7 +206,7 @@
     </div>
     
     <!-- Modal for preview in mobile view -->
-    <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+ 	<div id="previewModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-auto">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">

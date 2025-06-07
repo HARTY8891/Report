@@ -56,57 +56,51 @@ function initPreview() {
                     <p><strong>Summary:</strong> ${summary}</p>
                     <p><strong>Severity:</strong> ${severity} ${urgent ? '<span class="bg-red-100 text-red-800 text-xs font-medium px-2 py-0.5 rounded ml-2">URGENT</span>' : ''}</p>
                     ${confidential ? '<p class="text-red-600 font-medium"><i class="fas fa-lock mr-1"></i> CONFIDENTIAL</p>' : ''}
+                    <p><strong>Reported By:</strong> ${reportedBy}</p>
+                    <p><strong>Assigned To:</strong> ${reportedTo || 'Not assigned'}</p>
                 </div>
                 
                 <div class="space-y-2">
                     <h2 class="text-xl font-semibold text-gray-800 border-b pb-1">Detailed Description</h2>
-                    <p>${description.replace(/\n/g, '<br>')}</p>
+                    <p style="white-space: pre-wrap;">${description.replace(/\n/g, '<br>')}</p>
                 </div>
-                
-                ${environment ? `
+        `;
+        
+        if (environment) {
+            html += `
                 <div class="space-y-2">
                     <h2 class="text-xl font-semibold text-gray-800 border-b pb-1">Environment</h2>
-                    <p>${environment.replace(/\n/g, '<br>')}</p>
+                    <p style="white-space: pre-wrap;">${environment.replace(/\n/g, '<br>')}</p>
                 </div>
-                ` : ''}
-                
-                ${nextSteps ? `
+            `;
+        }
+        
+        if (nextSteps) {
+            html += `
                 <div class="space-y-2">
                     <h2 class="text-xl font-semibold text-gray-800 border-b pb-1">Recommended Next Steps</h2>
-                    <p>${nextSteps.replace(/\n/g, '<br>')}</p>
+                    <p style="white-space: pre-wrap;">${nextSteps.replace(/\n/g, '<br>')}</p>
                 </div>
-                ` : ''}
-                
-                ${document.getElementById('previewContainer').children.length > 0 ? `
-                <div class="space-y-2">
-                    <h2 class="text-xl font-semibold text-gray-800 border-b pb-1">Screenshots</h2>
-                    <div class="grid grid-cols-1 gap-3">
-                ` : ''}
-        `;
+            `;
+        }
         
         // Add screenshots if any
         const images = document.getElementById('previewContainer').querySelectorAll('img');
-        images.forEach(img => {
-            html += `<div class="border rounded-md p-2"><img src="${img.src}" class="w-full max-h-60 object-contain mx-auto"></div>`;
-        });
-        
         if (images.length > 0) {
+            html += `
+                <div class="space-y-2">
+                    <h2 class="text-xl font-semibold text-gray-800 border-b pb-1">Screenshots</h2>
+                    <div class="grid grid-cols-1 gap-3">
+            `;
+            
+            images.forEach(img => {
+                html += `<div class="border rounded-md p-2"><img src="${img.src}" class="w-full max-h-[500px] object-contain mx-auto"></div>`;
+            });
+            
             html += `</div></div>`;
         }
         
-        html += `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                    <div class="space-y-1">
-                        <h3 class="font-semibold text-gray-800">Reported By</h3>
-                        <p>${reportedBy}</p>
-                    </div>
-                    <div class="space-y-1">
-                        <h3 class="font-semibold text-gray-800">Assigned To</h3>
-                        <p>${reportedTo || 'Not assigned'}</p>
-                    </div>
-                </div>
-            </div>
-        `;
+        html += `</div>`;
         
         return html;
     }
